@@ -13,24 +13,26 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
     flex-direction: column;
     margin: 0;
     padding: 10px;
+    min-height: 100vh; /* Use min-height instead of height for better flexibility */
   }
   h2 {
     color: #FF006F;
+    text-align: center;
     margin-bottom: 16px;
   }
   .bingo-card {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: 10px;
-    width: 80%;
+    width: 100%;
     max-width: 600px;
+    padding: 10px; /* Added padding for better spacing on small screens */
   }
   .bingo-item {
-    padding: 20px;
+    padding: 10px; /* Adjust padding for smaller screens */
     background-color: #1E1E1E;
     color: #FFFFFF;
     text-align: center;
@@ -49,8 +51,10 @@
   }
   @media (max-width: 600px) {
     .bingo-card {
-      width: 100%;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(3, 1fr); /* Adjust for smaller screen sizes */
+    }
+    .bingo-item {
+      padding: 8px; /* Slightly reduce padding for smaller screens */
     }
   }
 </style>
@@ -60,6 +64,7 @@
 <div class="bingo-card">
   <!-- Bingo items will be inserted here by JavaScript -->
 </div>
+
 <script>
 const bingoItems = [
   "Created a blog or website",
