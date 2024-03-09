@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Techies Bingo - Digital Shapers Edition</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #121212;
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+    margin: 0;
+    padding: 10px;
+  }
+  h2 {
+    color: #FF006F;
+    margin-bottom: 16px;
+  }
+  .bingo-card {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    width: 80%;
+    max-width: 600px;
+  }
+  .bingo-item {
+    padding: 20px;
+    background-color: #1E1E1E;
+    color: #FFFFFF;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: transform 0.3s ease, background-color 0.3s;
+  }
+  .bingo-item:hover {
+    transform: translateY(-3px);
+    background-color: #333333;
+  }
+  .selected {
+    background-color: #FF006F;
+    color: #121212;
+    border: none;
+  }
+  @media (max-width: 600px) {
+    .bingo-card {
+      width: 100%;
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>
+</head>
+<body>
+<h2>Techies Bingo - Digital Shapers Edition</h2>
+<div class="bingo-card">
+  <!-- Bingo items will be inserted here by JavaScript -->
+</div>
+<script>
+const bingoItems = [
+  "Created a blog or website",
+  "Makes TikTok videos",
+  "FREE SPACE",
+  "Tried VR games",
+  "Reads tech news",
+  "Built a PC",
+  "Has a YouTube channel",
+  "Hosted a webinar",
+  "Loves sci-fi",
+  "Online gaming fan",
+  "Uses fitness tracker",
+  "Programmed a robot",
+  "Tech DIY enthusiast",
+  "Shared a tech meme",
+  "Attended a tech talk",
+  "Plays a coding game",
+  "Uses smart home devices",
+  "Has tech-themed T-shirt",
+  "Dreams of a tech startup",
+  "Makes digital art",
+  "Flown a drone",
+  "Has a favorite app",
+  "AI fascinates them",
+  "Binge-watches tech vlogs",
+  "Customized their own app"
+];
+
+const card = document.querySelector('.bingo-card');
+
+bingoItems.forEach(item => {
+  const div = document.createElement('div');
+  div.classList.add('bingo-item');
+  if(item === "FREE SPACE") {
+    div.classList.add('selected'); // Automatically select the FREE SPACE
+  }
+  div.textContent = item;
+  div.addEventListener('click', function() {
+    if(this.textContent !== "FREE SPACE") { // Prevent deselecting FREE SPACE
+      this.classList.toggle('selected');
+    }
+    checkBingo();
+  });
+  card.appendChild(div);
+});
+
+function checkBingo() {
+  const rows = 5;
+  const cols = 5;
+  const grid = [...document.querySelectorAll('.bingo-item')].map(item => item.classList.contains('selected'));
+  let bingo = false;
+  
+  // Check rows and columns
+  for (let i = 0; i < rows; i++) {
+    let rowComplete = true;
+    let colComplete = true;
+    for (let j = 0; j < cols; j++) {
+      if (!grid[i * cols + j]) {
+        rowComplete = false;
+      }
+      if (!grid[j * cols + i]) {
+        colComplete = false;
+      }
+    }
+    if (rowComplete || colComplete) {
+      bingo = true;
+      break;
+    }
+  }
+  
+  // Check diagonals
+  let diag1Complete = true;
+  let diag2Complete = true;
+  for (let i = 0; i < cols; i++) {
+    if (!grid[i * cols + i]) {
+      diag1Complete = false;
+    }
+    if (!grid[i * cols + (cols - i - 1)]) {
+      diag2Complete = false;
+    }
+  }
+  if (diag1Complete || diag2Complete) {
+    bingo = true;
+  }
+  
+  if (bingo) {
+    alert('Bingo!');
+    showLinkedInShare(); // Call LinkedIn share function after Bingo
+  }
+}
+
+function showLinkedInShare() {
+  // URL of the Bingo game page - replace with the page URL where the Bingo game is hosted
+  const pageUrl = encodeURIComponent('https://techlabs.org/program/local');
+  const shareText = encodeURIComponent("I just won Techies Bingo at our Digital Shapers event! #TechiesBingo #DigitalShapers #TechLabs");
+  const linkedInShareLink = `https://www.linkedin.com/sharing/share-offsite/?url=${pageUrl}&title=${shareText}`;
+
+  // Create share button if not already present
+  if (!document.getElementById('linkedin-share-button')) {
+    const shareButton = document.createElement('a');
+    shareButton.href = linkedInShareLink;
+    shareButton.target = '_blank';
+    shareButton.id = 'linkedin-share-button';
+    shareButton.textContent = 'Share on LinkedIn';
+    shareButton.style.cssText = 'display:block; margin-top:20px; color:#0A66C2; text-decoration:none; background-color:#fff; padding:10px 20px; border-radius:5px;';
+    document.body.appendChild(shareButton);
+  }
+}
+</script>
+</body>
+</html>
